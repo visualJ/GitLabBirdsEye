@@ -1,0 +1,101 @@
+.big-number-label{
+    text-align: center;
+    vertical-align: middle;
+    width: 40px;
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+img.birdseye-icon{
+    width: 32px;
+    height: 32px;
+    display: inline;
+}
+
+.birdseye-logo{
+    font-family: 'Josefin Sans', sans-serif;
+    display: inline;
+}
+
+.toggleIcon{
+    display: block;
+    padding: 10px;
+    width: 40px;
+    height: 40px;
+    position: relative;
+    top: 3px;
+}
+
+.panel{
+    padding: 10px;
+    border: 1px solid lightgrey;
+}
+
+.commit-flap{
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.progress-bar{
+    min-width: 100px;
+}
+
+.page-body{
+    margin-top: 80px;
+}
+
+.collapsing {
+    transition-duration: 0.1s;
+}
+
+.commit-id{
+    font-family: 'Roboto Mono', monospace;
+}
+
+.info-text{
+    color: lightgrey;
+}
+
+.branch-differences{
+    display: inline-block;
+    text-align: center;
+    width: 40px;
+    height: 40px;
+    background-color: #5cb85c;
+    color: white;
+    padding-top: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    -webkit-border-radius: 20px;
+    -moz-border-radius: 20px;
+    border-radius: 20px;
+    position: relative;
+    margin-right: 20px;
+    margin-left: 20px;
+}
+
+.branch-differences:HOVER, .branch-differences:FOCUS{
+    text-decoration: none;
+    color: #000000;
+}
+
+.merge-request-icon{
+    position: absolute;
+    top: 14px;
+    left: 44px;
+    display: none;
+    color: #5cb85c;
+}
+
+.branch-differences-merge-request .merge-request-icon{
+    display: block;
+}
+
+.side-link{
+    margin-left: 30px;
+}
+
+.project-name{
+    font-size: 16px;
+}

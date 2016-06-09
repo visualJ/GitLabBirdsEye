@@ -1,0 +1,62 @@
+<div class="modal-header">
+    <h3 class="modal-title">
+        <span class="navbar-brand birdseye-logo" href="#">
+            GitLab <img class="brand-icon birdseye-icon" src="img/birdsViewIcon.png"> BirdsEye
+            Help
+        </span>
+    </h3>
+</div>
+<div class="modal-body">
+    <div>
+        <h4>Authorization</h4>
+        <p>
+            Authorization works with the <strong>GitLab private token</strong>. It identifies and authenticates you.
+            You can get your private token by checking your account setting (/profile/account) on GitLab.
+            You'll have to paste this token into the config.js file.
+        </p>
+        <p>
+            The private token is a secret token,
+            so don't put the config.js with your token into a version control system or something similar.
+        </p>
+    </div>
+    <div>
+        <h4>What ist this all about, anyways?</h4>
+        <p>
+            BirdsEye is a tool that gives you a birds eys view over GitLab projects. It is designed to assist in a
+            standard three branch workflow and lists projects with unmerged commits between develop, release and
+            master branches.
+        </p>
+        <p>
+            You can quickly identify projects that should or could get merge requests, take a look at commits that
+            could be merged and actually create merge requests.
+        </p>
+    </div>
+    <div>
+        <h4>View changes and create merge requests</h4>
+        <p>
+            The right side of a project panel shows the standard branch setup with develop, release and master.
+            The green circles show the number of commits that are in the left, but not in the right branch. You can
+            click on such a circle to create a merge request. If a merge request already exists, a small icon is shown
+            on the circles right side and a link to all merge requests appears on the right side of the project panel.
+        </p>
+        <p>
+            You can also click on the arrow on the far right side of a project panel to open a list of the
+            individual commits. Clicking on a commit title will bring you to the commits GitLab page and clicking
+            on the commit authors name will open a new email to them with some information about the commit already
+            in place.
+        </p>
+    </div>
+    <div>
+        <h4>Did you know?</h4>
+        <p>
+            You can hover over many elements for one second to get a tooltip explaining what it does.
+        </p>
+        <p>
+            You can click on a commit authors name to write them an email that already contains information
+            about and a link to the referenced commit.
+        </p>
+    </div>
+</div>
+<div class="modal-footer">
+    using bootstrap icons by <a href="http://http://www.glyphicons.com/">Glyphicons</a>
+</div>

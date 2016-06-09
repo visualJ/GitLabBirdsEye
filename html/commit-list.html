@@ -1,0 +1,31 @@
+<div class="row" uib-collapse="!project.commitsVisible">
+    <div class="col-xs-12">
+        <div class="commit-flap">
+            <table class="table">
+                <tr>
+                    <td colspan="4">
+                        <h3 ng-show="project.develop_release > 0">
+                            {{project.develop_release}} Unmerged Commits
+                                        <span class="label label-success">
+                                            Develop <span class="glyphicon glyphicon-chevron-right"></span> Release
+                                        </span>
+                        </h3>
+                    </td>
+                </tr>
+                <tr commit-list-item="" ng-repeat="commit in project.developReleaseCommits"></tr>
+                <tr>
+                    <td colspan="4">
+                        <h3 ng-show="project.release_master > 0">
+                            {{project.release_master}} Unmerged Commits
+                                        <span class="label label-success">Release
+                                            <span class="glyphicon glyphicon-chevron-right"></span>
+                                            Master
+                                        </span>
+                        </h3>
+                    </td>
+                </tr>
+                <tr commit-list-item="" ng-repeat="commit in project.releaseMasterCommits"></tr>
+            </table>
+        </div>
+    </div>
+</div>

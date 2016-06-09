@@ -1,0 +1,133 @@
+<div class="row" uib-collapse="project.differences<=0">
+    <div class="col-xs-12">
+        <div class="panel">
+            <div class="row">
+                <div class="col-xs-5">
+                    <h4>
+                        <span class="label label-success big-number-label"
+                              uib-tooltip="there is a total of {{project.differences}} unmerged commit(s) in this project"
+                              tooltip-popup-delay='1000'>
+                            {{project.differences}}
+                        </span>
+                        <a class="project-name" target="_blank" ng-href="{{project.web_url}}"
+                           uib-tooltip="open {{project.name}} in GitLab"
+                           tooltip-popup-delay='1000'>
+                            {{project.name}}
+                        </a>
+                    </h4>
+                </div>
+                <div class="col-xs-7">
+                    <a target="_blank" ng-href="{{project.web_url}}/tree/develop">
+                        Develop
+                    </a>
+
+                    <a href="#" class="branch-differences"
+                       ng-class="{'branch-differences-merge-request':project.mergeRequestsDevelopRelease>=1}"
+                       ng-click="project.createMergeRequestDevelopRelease()"
+                       uib-tooltip="{{project.develop_release}} commits in develop are not merged into release. click to create a merge request"
+                       tooltip-popup-delay='1000'>
+                        {{project.develop_release}}
+                        <span class="glyphicon glyphicon-import merge-request-icon"></span>
+                    </a>
+
+                    <a target="_blank" ng-href="{{project.web_url}}/tree/release">
+                        Release
+                    </a>
+
+                    <a href="#" class="branch-differences"
+                       ng-class="{'branch-differences-merge-request':project.mergeRequestsReleaseMaster>=1}"
+                       ng-click="project.createMergeRequestReleaseMaster()"
+                       uib-tooltip="{{project.release_master}} commits in release are not merged into master. click to create a merge request"
+                       tooltip-popup-delay='1000'>
+                        {{project.release_master}}
+                        <span class="glyphicon glyphicon-import merge-request-icon"></span>
+                    </a>
+
+                    <a target="_blank" ng-href="{{project.web_url}}/tree/master">
+                        Master
+                    </a>
+
+                    <a class="side-link" target="_blank" ng-href="{{project.web_url}}/merge_requests"
+                       uib-tooltip="show open merge requests in GitLab"
+                       tooltip-popup-delay='1000'
+                       ng-show="project.mergeRequestsDevelopRelease>=1||project.mergeRequestsReleaseMaster>=1">
+                        <span class="glyphicon glyphicon-link"></span>
+                        view open merge requests
+                    </a>
+
+                    <!--<div class="row">-->
+                    <!--<div class="col-xs-1"-->
+                    <!--uib-tooltip="{{project.develop_release}} commit(s) from develop are not in release"-->
+                    <!--tooltip-popup-delay='1000'>-->
+                    <!--<span class="badge">-->
+                    <!--{{project.develop_release}}-->
+                    <!--</span>-->
+                    <!--</div>-->
+                    <!--<div class="col-xs-5">-->
+                    <!--<a ng-href="{{project.web_url}}/tree/develop">Develop</a>-->
+                    <!--<span class="glyphicon glyphicon-chevron-right"></span>-->
+                    <!--<a ng-href="{{project.web_url}}/tree/release">Release</a>-->
+                    <!--</div>-->
+                    <!--<div class="col-xs-6">-->
+                    <!--<button class="btn btn-success btn-xs" ng-class="{'disabled':project.develop_release <= 0}"-->
+                    <!--role="button" ng-click="project.createMergeRequestDevelopRelease()"-->
+                    <!--uib-tooltip="create a merge request from develop to release branch (might take a moment)"-->
+                    <!--tooltip-popup-delay='1000'>-->
+                    <!--<span class="glyphicon glyphicon-plus"></span>-->
+                    <!--Merge Request-->
+                    <!--</button>-->
+                    <!--<a target="_blank" ng-href="{{project.web_url}}/merge_requests"-->
+                    <!--uib-tooltip="{{project.mergeRequestsDevelopRelease}} merge requests from develop to release are currently open"-->
+                    <!--tooltip-popup-delay='1000'>-->
+                    <!--<span class="badge">-->
+                    <!--{{project.mergeRequestsDevelopRelease}}-->
+                    <!--</span>-->
+                    <!--</a>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <!--<div class="row">-->
+                    <!--<div class="col-xs-1"-->
+                    <!--uib-tooltip="{{project.release_master}} commit(s) from release are not in master"-->
+                    <!--tooltip-popup-delay='1000'>-->
+                    <!--<span class="badge">-->
+                    <!--{{project.release_master}}-->
+                    <!--</span>-->
+                    <!--</div>-->
+                    <!--<div class="col-xs-5">-->
+                    <!--<a ng-href="{{project.web_url}}/tree/release">Release</a> <span-->
+                    <!--class="glyphicon glyphicon-chevron-right"></span>-->
+                    <!--<a ng-href="{{project.web_url}}/tree/master">Master</a>-->
+                    <!--</div>-->
+                    <!--<div class="col-xs-6">-->
+                    <!--<button class="btn btn-success btn-xs" ng-class="{'disabled':project.release_master <= 0}"-->
+                    <!--ng-click="project.createMergeRequestReleaseMaster()"-->
+                    <!--uib-tooltip="create a merge request from release to master branch (might take a moment)"-->
+                    <!--tooltip-popup-delay='1000'>-->
+                    <!--<span class="glyphicon glyphicon-plus"></span>-->
+                    <!--Merge Request-->
+                    <!--</button>-->
+                    <!--<a target="_blank" ng-href="{{project.web_url}}/merge_requests"-->
+                    <!--uib-tooltip="{{project.mergeRequestsReleaseMaster}} merge requests from release to master are currently open"-->
+                    <!--tooltip-popup-delay='1000'>-->
+                    <!--<span class="badge">-->
+                    <!--{{project.mergeRequestsReleaseMaster}}-->
+                    <!--</span>-->
+                    <!--</a>-->
+                    <!--</div>-->
+                    <!--</div>-->
+                    <a ng-click="project.toggleCommitVisibility()" href="#" class="toggleIcon pull-right"
+                       uib-tooltip="show / hide unmerged commits"
+                       tooltip-popup-delay='1000'>
+                        <span class="glyphicon"
+                              ng-class="{
+                                'glyphicon-menu-down': !project.commitsVisible,
+                                'glyphicon-menu-up': project.commitsVisible
+                              }">
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <commit-list></commit-list>
+        </div>
+    </div>
+</div>

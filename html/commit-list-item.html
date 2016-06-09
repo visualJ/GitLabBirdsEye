@@ -1,0 +1,16 @@
+<tr>
+    <td class="commit-id">{{commit.short_id}}</td>
+    <td>
+        <a target="_blank" ng-href="{{project.web_url}}/commit/{{commit.id}}"
+           uib-tooltip="open this commit in GitLab"
+           tooltip-popup-delay='1000'>
+            {{commit.title}}
+        </a>
+    </td>
+    <td>
+        <a uib-tooltip="email to {{commit.author_email}}"
+           tooltip-popup-delay='1000'
+           ng-href="mailto:{{commit.author_email}}?subject=About your commit {{commit.short_id}} in {{project.name}} on {{commit.created_at |date}}&body={{project.web_url}}/commit/{{commit.id}}">{{commit.author_name}}</a>
+    </td>
+    <td>{{commit.created_at | date}}</td>
+</tr>

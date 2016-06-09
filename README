@@ -1,0 +1,11 @@
+This is a tool to get a birds eye view on your GitLab projects, hence the name BirdsEye.
+This does not need any installation, since it is an angular application that runs in your browser.
+Just open index.html.
+
+known issues
+============
+- This currently only works in Firefox, since other browsers block the loading of templates, when run from the file system.
+  However, if you set up a local web server or disable that restriction e.g. via chrome.exe --allow-file-access-from-files,
+  this should also work on other browsers.
+
+- When opening or closing a project panel, the view scrolls to the top. No idea how to fix that.
