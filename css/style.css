@@ -1,4 +1,4 @@
-.big-number-label{
+.big-number-label {
     text-align: center;
     vertical-align: middle;
     width: 40px;
@@ -7,18 +7,18 @@
     margin-right: 10px;
 }
 
-img.birdseye-icon{
+img.birdseye-icon {
     width: 32px;
     height: 32px;
     display: inline;
 }
 
-.birdseye-logo{
+.birdseye-logo {
     font-family: 'Josefin Sans', sans-serif;
     display: inline;
 }
 
-.toggleIcon{
+.toggleIcon {
     display: block;
     padding: 10px;
     width: 40px;
@@ -27,21 +27,21 @@ img.birdseye-icon{
     top: 3px;
 }
 
-.panel{
+.panel {
     padding: 10px;
     border: 1px solid lightgrey;
 }
 
-.commit-flap{
+.commit-flap {
     margin-top: 20px;
     padding: 10px;
 }
 
-.progress-bar{
+.progress-bar {
     min-width: 100px;
 }
 
-.page-body{
+.page-body {
     margin-top: 80px;
 }
 
@@ -49,15 +49,15 @@ img.birdseye-icon{
     transition-duration: 0.1s;
 }
 
-.commit-id{
+.commit-id {
     font-family: 'Roboto Mono', monospace;
 }
 
-.info-text{
+.info-text {
     color: lightgrey;
 }
 
-.branch-differences{
+.branch-differences {
     display: inline-block;
     text-align: center;
     width: 40px;
@@ -75,12 +75,13 @@ img.birdseye-icon{
     margin-left: 20px;
 }
 
-.branch-differences:HOVER, .branch-differences:FOCUS{
+.branch-differences:HOVER, .branch-differences:FOCUS {
     text-decoration: none;
-    color: #000000;
+    background-color: #337ab7;
+    color: #fff;
 }
 
-.merge-request-icon{
+.merge-request-icon {
     position: absolute;
     top: 14px;
     left: 44px;
@@ -88,14 +89,19 @@ img.birdseye-icon{
     color: #5cb85c;
 }
 
-.branch-differences-merge-request .merge-request-icon{
+.branch-differences-merge-request .merge-request-icon,
+.branch-differences:HOVER .merge-request-icon {
     display: block;
 }
 
-.side-link{
+.branch-differences:HOVER .merge-request-icon {
+    color: #337ab7;
+}
+
+.side-link {
     margin-left: 30px;
 }
 
-.project-name{
+.project-name {
     font-size: 16px;
 }

@@ -22,7 +22,7 @@ function GitLabApi($http, gitLabAddress, privateToken) {
 
     /**
      * Retrieves all available projects
-     * @param callback callback for successful respponse
+     * @param callback callback for successful response
      * @param errorCallback callback for errors
      */
     this.getProjects = function (callback, errorCallback) {
@@ -36,7 +36,7 @@ function GitLabApi($http, gitLabAddress, privateToken) {
      * Compares two branches of a project
      * @param id The project id
      * @param from Branch name to compare from
-     * @param to Branchname to compare to
+     * @param to Branch name to compare to
      * @param callback Callback for successful response
      */
     this.compareCall = function (id, from, to, callback) {

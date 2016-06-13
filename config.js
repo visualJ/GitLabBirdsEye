@@ -3,5 +3,6 @@
  */
 birdsEyeConfig = {
     gitLabAddress: "http://127.0.0.1",
-    privateToken: ""
+    privateToken: "",
+    branches: ["develop", "release", "master"]
 };

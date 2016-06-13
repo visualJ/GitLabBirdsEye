@@ -38,7 +38,7 @@
 
 <div class="container page-body">
     <uib-progressbar uib-collapse="birdsEyeCtrl.finishedLoadingProjectsCount>=birdsEyeCtrl.projectsCount"
-                     ng-hide="birdsEyeCtrl.unauthorized"
+                     ng-hide="birdsEyeCtrl.unauthorized||birdsEyeCtrl.branchConfigError"
                      class="progress-striped active" type="success" max="birdsEyeCtrl.projectsCount"
                      value="birdsEyeCtrl.finishedLoadingProjectsCount">
         {{birdsEyeCtrl.finishedLoadingProjectsCount}} / {{birdsEyeCtrl.projectsCount}}
@@ -47,6 +47,12 @@
     <uib-alert type="danger" ng-show="birdsEyeCtrl.unauthorized">
         <span class="glyphicon glyphicon-exclamation-sign"></span>
         <strong>401 - Unauthorized!</strong> Please put your private token into the config.js!
+    </uib-alert>
+
+    <uib-alert type="danger" ng-show="birdsEyeCtrl.branchConfigError">
+        <span class="glyphicon glyphicon-exclamation-sign"></span>
+        <strong>Error in Branch configuration!</strong> Only exaclty 3 branches are supported right now.
+        Please add 3 branches to config.js!
     </uib-alert>
 
     <project ng-repeat="project in birdsEyeCtrl.projects"></project>

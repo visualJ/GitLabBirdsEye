@@ -11,51 +11,52 @@
      * @param finishedLoadingCallback A callback for when the project finished loading its data
      * @constructor
      */
-    var Project = function (projectJSON, gitLabApi, finishedLoadingCallback) {
+    var Project = function (projectJSON, gitLabApi, branches, finishedLoadingCallback) {
         this.id = projectJSON.id;
         this.web_url = projectJSON.web_url;
         this.name = projectJSON.name;
+        this.branches = branches;
         this.differences = 0;
-        this.develop_release = 0;
-        this.release_master = 0;
+        this.ABDifferences = 0;
+        this.BCDifferences = 0;
         this.gitLabApi = gitLabApi;
-        this.developReleasePending = true;
-        this.releaseMasterPending = true;
+        this.ABPending = true;
+        this.BCPending = true;
         this.valuesPending = true;
         this.commitsVisible = false;
         this.finishedLoadingCallback = finishedLoadingCallback;
-        this.mergeRequestsDevelopRelease = 0;
-        this.mergeRequestsReleaseMaster = 0;
+        this.mergeRequestsAB = 0;
+        this.mergeRequestsBC = 0;
 
         /**
          * Updates bound values. This should be called, when this projects state
          * is updated, like branch differences.
          */
         this.updatedValue = function () {
-            this.differences = this.develop_release + this.release_master;
-            this.valuesPending = this.developReleasePending || this.releaseMasterPending;
+            this.differences = this.ABDifferences + this.BCDifferences;
+            this.valuesPending = this.ABPending || this.BCPending;
             if (!this.valuesPending) {
                 this.finishedLoadingCallback(this);
             }
         };
 
         /**
-         * Sets the differences between develop and release branch and updates dependant values
+         * Sets the differences between branch A and B and updates dependant values
          * @param value The value to set the difference to
          */
-        this.setDevelopRelease = function (value) {
-            this.develop_release = value;
-            this.developReleasePending = false;
+        this.setABDifferences = function (value) {
+            this.ABDifferences = value;
+            this.ABPending = false;
             this.updatedValue();
         };
 
         /**
-         * Sets the differences between release and master branch and updates dependant values
+         * Sets the differences between branch B and C and updates dependant values
          * @param value The value to set the difference to
          */
-        this.setReleaseMaster = function (value) {
-            this.release_master = value;
-            this.releaseMasterPending = false;
+        this.setBCDifferences = function (value) {
+            this.BCDifferences = value;
+            this.BCPending = false;
             this.updatedValue();
         };
 
@@ -64,13 +65,13 @@
          */
         this.compareBranches = function () {
             var project = this;
-            this.gitLabApi.compareCall(this.id, 'release', 'develop', function (response) {
-                project.setDevelopRelease(response.data.commits.length);
-                project.developReleaseCommits = response.data.commits;
+            this.gitLabApi.compareCall(this.id, this.branches[1], this.branches[0], function (response) {
+                project.setABDifferences(response.data.commits.length);
+                project.ABCommits = response.data.commits;
             });
-            this.gitLabApi.compareCall(this.id, 'master', 'release', function (response) {
-                project.setReleaseMaster(response.data.commits.length);
-                project.releaseMasterCommits = response.data.commits;
+            this.gitLabApi.compareCall(this.id, this.branches[2], this.branches[1], function (response) {
+                project.setBCDifferences(response.data.commits.length);
+                project.BCCommits = response.data.commits;
             });
         };
 
@@ -82,11 +83,12 @@
         };
 
         /**
-         * Creates a merge request from develop to release branch
+         * Creates a merge request from branch A to B
          */
-        this.createMergeRequestDevelopRelease = function () {
+        this.createMergeRequestAB = function () {
             var project = this;
-            this.gitLabApi.createMergeRequest(this.id, "develop", "release", "Merge Develop into Release",
+            this.gitLabApi.createMergeRequest(this.id, this.branches[0], this.branches[1],
+                "Merge " + this.branches[0] + " into " + this.branches[1],
                 function (response) {
                     project.updateOpenMergeRequests();
                 }
@@ -94,11 +96,12 @@
         };
 
         /**
-         * Creates a merge request from release to master branch
+         * Creates a merge request from branch B to C
          */
-        this.createMergeRequestReleaseMaster = function () {
+        this.createMergeRequestBC = function () {
             var project = this;
-            this.gitLabApi.createMergeRequest(this.id, "release", "master", "Merge Release into Master",
+            this.gitLabApi.createMergeRequest(this.id, this.branches[1], this.branches[2],
+                "Merge " + this.branches[1] + " into " + this.branches[2],
                 function (response) {
                     project.updateOpenMergeRequests();
                 }
@@ -109,20 +112,21 @@
             var project = this;
             this.gitLabApi.getOpenMergeRequests(this.id, function (response) {
                 var mergeRequests = response.data;
-                var mergeRequestsDevelopRelease = 0;
-                var mergeRequestsReleaseMaster = 0;
-                var i = 0;
-                for (i in mergeRequests) {
+                var mergeRequestsAB = 0;
+                var mergeRequestsBC = 0;
+                for (var i in mergeRequests) {
                     var mergeRequest = mergeRequests[i];
-                    if (mergeRequest.source_branch == "develop" && mergeRequest.target_branch == "release") {
-                        mergeRequestsDevelopRelease += 1;
+                    if (mergeRequest.source_branch == project.branches[0]
+                        && mergeRequest.target_branch == project.branches[1]) {
+                        mergeRequestsAB += 1;
                     }
-                    if (mergeRequest.source_branch == "release" && mergeRequest.target_branch == "master") {
-                        mergeRequestsReleaseMaster += 1;
+                    if (mergeRequest.source_branch == project.branches[1]
+                        && mergeRequest.target_branch == project.branches[2]) {
+                        mergeRequestsBC += 1;
                     }
                 }
-                project.mergeRequestsDevelopRelease = mergeRequestsDevelopRelease;
-                project.mergeRequestsReleaseMaster = mergeRequestsReleaseMaster;
+                project.mergeRequestsAB = mergeRequestsAB;
+                project.mergeRequestsBC = mergeRequestsBC;
             });
         };
 
@@ -138,27 +142,29 @@
         this.gitLabApi = new GitLabApi($http, birdsEyeConfig.gitLabAddress, birdsEyeConfig.privateToken);
         this.finishedLoadingProjectsCount = 0;
         this.visibleProjects = 0;
-        this.gitLabApi.getProjects(function (response) {
-            ctrl.projects = [];
-            ctrl.projectsCount = response.data.length;
-            // create a project object for each project in the response
-            var i;
-            for (i in response.data) {
-                var responseData = response.data[i];
-                var p = new Project(responseData, ctrl.gitLabApi, function (project) {
-                    ctrl.finishedLoadingProjectsCount += 1;
-                    if (project.differences > 0) {
-                        ctrl.visibleProjects += 1;
-                    }
-                });
-                ctrl.projects.push(p);
-            }
-        }, function (response) {
-            if (response.status == 401) {
-                // unauthorized, private token is missing or wrong
-                ctrl.unauthorized = true;
-            }
-        });
+        this.branchConfigError = birdsEyeConfig.branches.length != 3;
+        if(!this.branchConfigError){
+            this.gitLabApi.getProjects(function (response) {
+                ctrl.projects = [];
+                ctrl.projectsCount = response.data.length;
+                // create a project object for each project in the response
+                for (var i in response.data) {
+                    var responseData = response.data[i];
+                    var p = new Project(responseData, ctrl.gitLabApi, birdsEyeConfig.branches, function (project) {
+                        ctrl.finishedLoadingProjectsCount += 1;
+                        if (project.differences > 0) {
+                            ctrl.visibleProjects += 1;
+                        }
+                    });
+                    ctrl.projects.push(p);
+                }
+            }, function (response) {
+                if (response.status == 401) {
+                    // unauthorized, private token is missing or wrong
+                    ctrl.unauthorized = true;
+                }
+            });
+        }
         this.help = function () {
             $uibModal.open({
                 animation: true,

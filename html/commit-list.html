@@ -4,27 +4,27 @@
             <table class="table">
                 <tr>
                     <td colspan="4">
-                        <h3 ng-show="project.develop_release > 0">
-                            {{project.develop_release}} Unmerged Commits
+                        <h3 ng-show="project.ABDifferences > 0">
+                            {{project.ABDifferences}} Unmerged Commits
                                         <span class="label label-success">
-                                            Develop <span class="glyphicon glyphicon-chevron-right"></span> Release
+                                            {{project.branches[0]}} <span class="glyphicon glyphicon-chevron-right"></span> {{project.branches[1]}}
                                         </span>
                         </h3>
                     </td>
                 </tr>
-                <tr commit-list-item="" ng-repeat="commit in project.developReleaseCommits"></tr>
+                <tr commit-list-item="" ng-repeat="commit in project.ABCommits"></tr>
                 <tr>
                     <td colspan="4">
-                        <h3 ng-show="project.release_master > 0">
-                            {{project.release_master}} Unmerged Commits
-                                        <span class="label label-success">Release
+                        <h3 ng-show="project.BCDifferences > 0">
+                            {{project.BCDifferences}} Unmerged Commits
+                                        <span class="label label-success">{{project.branches[1]}}
                                             <span class="glyphicon glyphicon-chevron-right"></span>
-                                            Master
+                                            {{project.branches[2]}}
                                         </span>
                         </h3>
                     </td>
                 </tr>
-                <tr commit-list-item="" ng-repeat="commit in project.releaseMasterCommits"></tr>
+                <tr commit-list-item="" ng-repeat="commit in project.BCCommits"></tr>
             </table>
         </div>
     </div>

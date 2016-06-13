@@ -12,6 +12,7 @@
         };
     });
 
+    // this is an attribute directive, because element directives don't work well on <tr> in tables
     app.directive("commitListItem", function () {
         return {
             restrict: "A",
