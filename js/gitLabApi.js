@@ -13,7 +13,7 @@ function GitLabApi($http, gitLabAddress, privateToken) {
      * @returns {string} A ready-to-use url for an API call
      */
     this.getRequestUrl = function (request, parameters) {
-        var url = this.gitLabAddress + '/api/v3/' + request + '?private_token=' + this.privateToken;
+        var url = this.gitLabAddress + '/api/v3/' + request + '?private_token=' + this.privateToken + '&per_page=100';
         if (parameters != null) {
             url += '&' + parameters;
         }
