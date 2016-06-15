@@ -143,6 +143,7 @@
         this.finishedLoadingProjectsCount = 0;
         this.visibleProjects = 0;
         this.branchConfigError = birdsEyeConfig.branches.length != 3;
+        this.filterMergableProjects = true;
         if(!this.branchConfigError){
             this.gitLabApi.getProjects(function (response) {
                 ctrl.projects = [];
@@ -172,6 +173,9 @@
                 templateUrl: 'html/help.html'
             });
         };
+        this.toggleFilterMergableProjects = function(){
+            this.filterMergableProjects = !this.filterMergableProjects;
+        }
     });
 
 })();

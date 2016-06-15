@@ -1,10 +1,11 @@
-<div class="row" uib-collapse="project.differences<=0">
+<div class="row" uib-collapse="project.differences<=0&&birdsEyeCtrl.filterMergableProjects">
     <div class="col-xs-12">
         <div class="panel">
             <div class="row">
                 <div class="col-xs-5">
                     <h4>
-                        <span class="label label-success big-number-label"
+                        <span class="label big-number-label"
+                              ng-class="{'label-default':project.differences<=0, 'label-success':project.differences>0}"
                               uib-tooltip="there is a total of {{project.differences}} unmerged commit(s) in this project"
                               tooltip-popup-delay='1000'>
                             {{project.differences}}

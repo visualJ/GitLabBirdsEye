@@ -17,7 +17,8 @@
 <nav class="navbar navbar-default navbar-fixed-top">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand birdseye-logo" href="#">GitLab <img class="brand-icon birdseye-icon" src="img/birdsViewIcon.png"> BirdsEye</a>
+            <a class="navbar-brand birdseye-logo" href="#">GitLab <img class="brand-icon birdseye-icon"
+                                                                       src="img/birdsViewIcon.png"> BirdsEye</a>
         </div>
         <ul class="nav navbar-nav navbar-right">
             <li class="disabled">
@@ -27,6 +28,11 @@
                                     one:'One project with unmerged commits',
                                     other:'{} projects with unmerged commits'}">
                     </ng-pluralize>
+                </a>
+            </li>
+            <li ng-class="{'active':birdsEyeCtrl.filterMergableProjects}">
+                <a href="#" ng-click="birdsEyeCtrl.toggleFilterMergableProjects()">
+                    <span class="glyphicon glyphicon-filter"></span>
                 </a>
             </li>
             <li>
