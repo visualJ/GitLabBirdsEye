@@ -137,28 +137,30 @@
         this.updateOpenMergeRequests();
     };
 
-    app.controller("birdsEyeController", function ($http, $uibModal) {
+    app.controller("birdsEyeController", function ($http, $q, $uibModal) {
         var ctrl = this;
-        this.gitLabApi = new GitLabApi($http, birdsEyeConfig.gitLabAddress, birdsEyeConfig.privateToken);
+        this.gitLabApi = new GitLabApi($http, $q, birdsEyeConfig.gitLabAddress, birdsEyeConfig.privateToken);
         this.finishedLoadingProjectsCount = 0;
         this.visibleProjects = 0;
         this.branchConfigError = birdsEyeConfig.branches.length != 3;
         this.filterMergableProjects = true;
-        if(!this.branchConfigError){
-            this.gitLabApi.getProjects(function (response) {
+        if (!this.branchConfigError) {
+            this.gitLabApi.getProjects(function (projects) {
                 ctrl.projects = [];
-                ctrl.projectsCount = response.data.length;
+                ctrl.projectsCount = projects.length;
                 // create a project object for each project in the response
-                for (var i in response.data) {
-                    var responseData = response.data[i];
-                    var p = new Project(responseData, ctrl.gitLabApi, birdsEyeConfig.branches, function (project) {
-                        ctrl.finishedLoadingProjectsCount += 1;
-                        if (project.differences > 0) {
-                            ctrl.visibleProjects += 1;
-                        }
+
+                projects
+                    .forEach(function (project) {
+                        var p = new Project(project, ctrl.gitLabApi, birdsEyeConfig.branches, function (fetchedProject) {
+                            ctrl.finishedLoadingProjectsCount += 1;
+                            if (fetchedProject.differences > 0) {
+                                ctrl.visibleProjects += 1;
+                            }
+                        });
+                        ctrl.projects.push(p);
                     });
-                    ctrl.projects.push(p);
-                }
+
             }, function (response) {
                 if (response.status == 401) {
                     // unauthorized, private token is missing or wrong
@@ -173,7 +175,7 @@
                 templateUrl: 'html/help.html'
             });
         };
-        this.toggleFilterMergableProjects = function(){
+        this.toggleFilterMergableProjects = function () {
             this.filterMergableProjects = !this.filterMergableProjects;
         }
     });
